@@ -28,11 +28,11 @@ class ProductRemoteDataSource with HttpResponseValidatore implements IProductDat
     final response = await httpClient.get('product/search?q=$searchTerm');
     validateRespone(response);
     // Initialize empty list to hold product entities
-    final productas = <ProductEntity>[];
+    final products = <ProductEntity>[];
     (response.data as List).forEach((element) {
-      productas.add(ProductEntity.fromJson(element));
+      products.add(ProductEntity.fromJson(element));
     });
-    return productas;
+    return products;
   }
 
   
