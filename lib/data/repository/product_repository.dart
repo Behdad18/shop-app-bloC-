@@ -1,8 +1,8 @@
+import 'package:app/common/http_client.dart';
 import 'package:app/data/data_source/product_data_source.dart';
 import 'package:app/data/product.dart';
-import 'package:dio/dio.dart';
 
-final httpClient = Dio(BaseOptions(baseUrl: 'fttps://fapi.7learn.com/api/v1/'));
+
 // Create a product repository instance with a remote data source
 final productReposirory = ProductRepository(dataSource: ProductRemoteDataSource(httpClient: httpClient));
 
