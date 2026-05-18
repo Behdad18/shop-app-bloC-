@@ -1,4 +1,4 @@
-import 'package:app/common/exceptins.dart';
+import 'package:app/common/http_response_validatore.dart';
 import 'package:app/data/product.dart';
 import 'package:dio/dio.dart';
 
@@ -7,7 +7,7 @@ abstract class IProductDataSource {
   Future<List<ProductEntity>> search(String searchTerm);
 }
 
-class ProductRemoteDataSource implements IProductDataSource {
+class ProductRemoteDataSource with HttpResponseValidatore implements IProductDataSource {
   final Dio httpClient;
 
   ProductRemoteDataSource({required this.httpClient});
@@ -35,11 +35,5 @@ class ProductRemoteDataSource implements IProductDataSource {
     return productas;
   }
 
-  // Helper method to validate HTTP response
-  // Throws AppExceptions if status code is not 200 (OK)
-  validateRespone(Response response) {
-    if (response.statusCode != 200) {
-      throw AppExceotions();
-    }
-  }
+  
 }
