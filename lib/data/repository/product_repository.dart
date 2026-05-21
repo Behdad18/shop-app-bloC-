@@ -4,7 +4,7 @@ import 'package:app/data/product.dart';
 
 
 // Create a product repository instance with a remote data source
-final productReposirory = ProductRepository(dataSource: ProductRemoteDataSource(httpClient: httpClient));
+final productRepository = ProductRepository(dataSource: ProductRemoteDataSource(httpClient: httpClient));
 
 // Abstract interface defining the contract for product repository
 abstract class IProductRepository{
