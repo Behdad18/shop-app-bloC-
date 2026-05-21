@@ -1,4 +1,5 @@
 import 'package:app/theme.dart';
+import 'package:app/ui/home/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     );
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: TextTheme(
           bodyMedium: deafaultTextStyle,
@@ -35,20 +37,11 @@ class MyApp extends StatelessWidget {
           onSecondary: Colors.white,
           error: Colors.white,
           onError: Colors.red,
-          surface: LightThemeColors.primarycolor,
+          surface: Colors.white,
           onSurface: LightThemeColors.secondaryColor,
         ),
       ),
-      home: Directionality(textDirection: TextDirection.rtl, child: Home()),
+      home: Directionality(textDirection: TextDirection.rtl, child:const HomeScreen()),
     );
-  }
-}
-
-class Home extends StatelessWidget {
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
