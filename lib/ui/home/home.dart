@@ -1,8 +1,6 @@
-import 'package:app/data/banner.dart';
 import 'package:app/data/repository/banner_repository.dart';
 import 'package:app/data/repository/product_repository.dart';
 import 'package:app/ui/home/bloc/home_bloc.dart';
-import 'package:app/ui/widgets/image.dart';
 import 'package:app/ui/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
