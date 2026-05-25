@@ -1,6 +1,9 @@
+import 'package:app/data/banner.dart';
 import 'package:app/data/repository/banner_repository.dart';
 import 'package:app/data/repository/product_repository.dart';
 import 'package:app/ui/home/bloc/home_bloc.dart';
+import 'package:app/ui/widgets/image.dart';
+import 'package:app/ui/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,10 +31,17 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
-                        return Image.asset(
-                          'assets/img/nike_logo.png',
-                          height: 32,
+                        return Container(
+                          height: 56,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            'assets/img/nike_logo.png',
+                            height: 28,
+                            fit: BoxFit.fitHeight,
+                          ),
                         );
+                        case 2:
+                        return BannerSlider(banners: state.banners,);
                       default:
                         return Container();
                     }
