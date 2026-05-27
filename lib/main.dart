@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: TextTheme(
+          titleMedium: deafaultTextStyle.apply(color: LightThemeColors.secondarytextColor),
           bodyMedium: deafaultTextStyle,
           headlineLarge: deafaultTextStyle.copyWith(
             fontWeight: FontWeight.bold,
