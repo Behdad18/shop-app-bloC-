@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: deafaultTextStyle,
           headlineLarge: deafaultTextStyle.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: 22
           ),
           bodySmall: deafaultTextStyle.copyWith(
             color: LightThemeColors.secondarytextColor,
