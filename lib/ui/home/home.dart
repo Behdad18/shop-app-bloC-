@@ -1,10 +1,13 @@
+import 'package:app/common/utills.dart';
+import 'package:app/data/product.dart';
 import 'package:app/data/repository/banner_repository.dart';
 import 'package:app/data/repository/product_repository.dart';
 import 'package:app/ui/home/bloc/home_bloc.dart';
+import 'package:app/ui/widgets/image.dart';
 import 'package:app/ui/widgets/slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,16 +17,18 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         final homeBloc = HomeBloc(
-            bannerRepository: bannerRepository,
-            productRepository: productRepository);
+          bannerRepository: bannerRepository,
+          productRepository: productRepository,
+        );
         homeBloc.add(HomeStarted());
         return homeBloc;
       },
       child: Scaffold(
         body: SafeArea(
-          child: BlocBuilder<HomeBloc, HomeState>(builder: ((context, state) {
-            if (state is HomeSuccess) {
-              return ListView.builder(
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: ((context, state) {
+              if (state is HomeSuccess) {
+                return ListView.builder(
                   itemCount: 5,
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 100),
                   itemBuilder: (context, index) {
@@ -38,35 +43,151 @@ class HomeScreen extends StatelessWidget {
                             fit: BoxFit.fitHeight,
                           ),
                         );
-                        case 2:
-                        return BannerSlider(banners: state.banners,);
+                      case 2:
+                        return BannerSlider(banners: state.banners);
+                      case 3:
+                        return _HorizantalProductList(
+                          title: 'جدیدترین',
+                          ontap: () {},
+                          products: state.latestProducts,
+                        );
+                      case 4:
+                        return _HorizantalProductList(
+                          title: 'پربازدیدترین',
+                          ontap: () {},
+                          products: state.popularProducts,
+                        );
+
                       default:
                         return Container();
                     }
-                  });
-            } else if (state is HomeLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is HomeError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(state.exception.message),
-                    ElevatedButton(
+                  },
+                );
+              } else if (state is HomeLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is HomeError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(state.exception.message),
+                      ElevatedButton(
                         onPressed: () {
                           BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
                         },
-                        child: const Text('تلاش دوباره')),
-                  ],
-                ),
-              );
-            } else {
-              throw Exception('state is not supported');
-            }
-          })),
+                        child: const Text('تلاش دوباره'),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                throw Exception('state is not supported');
+              }
+            }),
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _HorizantalProductList extends StatelessWidget {
+  final String title;
+  final GestureTapCallback ontap;
+  final List<ProductEntity> products;
+  const _HorizantalProductList({
+    super.key,
+    required this.title,
+    required this.ontap,
+    required this.products,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 12, right: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              TextButton(onPressed: ontap, child: Text('مشاهده همه')),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 290,
+          child: ListView.builder(
+            physics: defaultScroolPhsysics,
+            scrollDirection: Axis.horizontal,
+            itemCount: products.length,
+            padding: EdgeInsets.only(left: 8, right: 8),
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: SizedBox(width: 176,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          SizedBox(
+                            height: 189,
+                            width: 176,
+                            child: ImageLoadingService(
+                              imageUrl: product.imageUrl,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          Positioned(
+                            right: 8,
+                            top: 8,
+                            child: Container(
+                              width: 32,
+                              height: 32,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: Icon(CupertinoIcons.heart),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          product.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Text(
+                          product.previousPrice.withPriceLabel,
+                          style: Theme.of(context).textTheme.bodySmall!.apply(
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8,top: 4),
+                        child: Text(product.price.withPriceLabel),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
