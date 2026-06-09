@@ -1,9 +1,11 @@
+import 'package:app/common/exceptins.dart';
 import 'package:app/common/utills.dart';
 import 'package:app/data/product.dart';
 import 'package:app/data/repository/banner_repository.dart';
 import 'package:app/data/repository/product_repository.dart';
 import 'package:app/ui/home/bloc/home_bloc.dart';
 import 'package:app/ui/product/product.dart';
+import 'package:app/ui/widgets/error.dart';
 import 'package:app/ui/widgets/image.dart';
 import 'package:app/ui/widgets/slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -67,21 +69,7 @@ class HomeScreen extends StatelessWidget {
               } else if (state is HomeLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is HomeError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(state.exception.message),
-                      ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
-                        },
-                        child: const Text('تلاش دوباره'),
-                      ),
-                    ],
-                  ),
-                );
+                return AppErrorWidget(exception: state.exception, onPressed: () { BlocProvider.of<HomeBloc>(context).add(HomeRefresh()); },);
               } else {
                 throw Exception('state is not supported');
               }
@@ -92,6 +80,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 class _HorizantalProductList extends StatelessWidget {
   final String title;
@@ -128,7 +118,10 @@ class _HorizantalProductList extends StatelessWidget {
             padding: EdgeInsets.only(left: 8, right: 8),
             itemBuilder: (context, index) {
               final product = products[index];
-              return ProductItem(product: product, borderRadius: BorderRadius.circular(12),);
+              return ProductItem(
+                product: product,
+                borderRadius: BorderRadius.circular(12),
+              );
             },
           ),
         ),
@@ -136,4 +129,3 @@ class _HorizantalProductList extends StatelessWidget {
     );
   }
 }
-
