@@ -1,0 +1,30 @@
+import 'package:app/common/exceptins.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+class AppErrorWidget extends StatelessWidget {
+  final AppExceotions exception;
+  final GestureTapCallback onPressed;
+  const AppErrorWidget({
+    super.key,
+    required this.exception,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(exception.message),
+          ElevatedButton(
+            onPressed: onPressed,
+            child: const Text('تلاش دوباره'),
+          ),
+        ],
+      ),
+    );
+  }
+}
