@@ -1,6 +1,7 @@
 import 'package:app/common/utills.dart';
 import 'package:app/data/product.dart';
 import 'package:app/theme.dart';
+import 'package:app/ui/product/comment/comment_list.dart';
 import 'package:app/ui/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,12 @@ class ProductDetailScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         floatingActionButton: SizedBox(
-          width: MediaQuery.of(context).size.width-48,
-          child: FloatingActionButton.extended(onPressed: (){}, label: Text('افزودن به سبد خرید'))),
+          width: MediaQuery.of(context).size.width - 48,
+          child: FloatingActionButton.extended(
+            onPressed: () {},
+            label: Text('افزودن به سبد خرید'),
+          ),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: CustomScrollView(
           physics: defaultScroolPhsysics,
@@ -72,11 +77,11 @@ class ProductDetailScreen extends StatelessWidget {
                         TextButton(onPressed: () {}, child: Text('ثبت نظر')),
                       ],
                     ),
-                    
                   ],
                 ),
               ),
             ),
+            CommentList(productId: product.id),
           ],
         ),
       ),
