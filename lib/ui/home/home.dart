@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
             builder: ((context, state) {
               if (state is HomeSuccess) {
                 return ListView.builder(
+                  physics: defaultScroolPhsysics,
                   itemCount: 5,
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 100),
                   itemBuilder: (context, index) {
