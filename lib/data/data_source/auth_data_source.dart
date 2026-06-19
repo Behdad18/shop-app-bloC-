@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 abstract class IAuthDataSource {
   Future<AuthInfo> login(String username, String passwpord);
-  Future<AuthInfo> register(String username, String passwpord);
+  Future<AuthInfo> signUp(String username, String passwpord);
   Future<AuthInfo> refreshToken(String token);
 }
 
@@ -43,8 +43,12 @@ class AuthRemoteDataSource
   }
 
   @override
-  Future<AuthInfo> register(String username, String passwpord) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<AuthInfo> signUp(String username, String passwpord) async {
+    final response = await httpClient.post(
+      'user/register',
+      data: {"email": username, "password": passwpord},
+    );
+    validateRespone(response);
+    return login(username, passwpord);
   }
 }
