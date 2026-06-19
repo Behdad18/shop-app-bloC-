@@ -9,6 +9,7 @@ final authRepository = AuthRepository(
 
 abstract class IAuthRepository {
   Future<void> login(String username, String passwpord);
+  Future<void> signUp(String username, String passwpord);
 }
 
 class AuthRepository implements IAuthRepository {
@@ -19,5 +20,15 @@ class AuthRepository implements IAuthRepository {
   Future<void> login(String username, String passwpord) async {
     final AuthInfo authInfo = await dataSource.login(username, passwpord);
     debugPrint("access token is :" + authInfo.accessToken);
+  }
+
+  @override
+  Future<void> signUp(String username, String passwpord) async {
+    try {
+      final AuthInfo authInfo = await dataSource.signUp(username, passwpord);
+      debugPrint("access token is :" + authInfo.accessToken);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
