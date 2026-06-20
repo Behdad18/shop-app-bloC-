@@ -19,7 +19,7 @@ class AuthRemoteDataSource
   @override
   Future<AuthInfo> login(String username, String passwpord) async {
     final response = await httpClient.post(
-      'auth/tokrn',
+      'auth/token',
       data: {
         "grant_type": "password",
         "client_id": 2,
