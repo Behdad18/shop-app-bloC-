@@ -1,8 +1,13 @@
+import 'package:app/data/repository/auth_repository.dart';
 import 'package:app/theme.dart';
+import 'package:app/ui/auth/auth.dart';
 import 'package:app/ui/home/home.dart';
+import 'package:app/ui/root.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  authRepository.loadAuthInfo();
   runApp(const MyApp());
 }
 
@@ -21,11 +26,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: TextTheme(
-          titleMedium: deafaultTextStyle.apply(color: LightThemeColors.secondarytextColor),
+          titleMedium: deafaultTextStyle.apply(
+            color: LightThemeColors.secondarytextColor,
+          ),
           bodyMedium: deafaultTextStyle,
           headlineLarge: deafaultTextStyle.copyWith(
             fontWeight: FontWeight.bold,
-            fontSize: 22
+            fontSize: 22,
           ),
           bodySmall: deafaultTextStyle.copyWith(
             color: LightThemeColors.secondarytextColor,
@@ -43,7 +50,10 @@ class MyApp extends StatelessWidget {
           onSurface: LightThemeColors.secondaryColor,
         ),
       ),
-      home: Directionality(textDirection: TextDirection.rtl, child:const HomeScreen()),
+      home: Directionality(
+        textDirection: TextDirection.rtl,
+        child: const AuthScreen(),
+      ),
     );
   }
 }
