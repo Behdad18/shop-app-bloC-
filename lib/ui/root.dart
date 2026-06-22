@@ -1,9 +1,8 @@
-import 'package:app/ui/cart.dart';
+import 'package:app/ui/cart/cart.dart';
 import 'package:app/ui/home/home.dart';
 import 'package:app/ui/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
