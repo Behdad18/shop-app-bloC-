@@ -5,8 +5,8 @@ import 'package:app/data/auth_info.dart';
 import 'package:dio/dio.dart';
 
 abstract class IAuthDataSource {
-  Future<AuthInfo> login(String username, String passwpord);
-  Future<AuthInfo> signUp(String username, String passwpord);
+  Future<AuthInfo> login(String username, String passpord);
+  Future<AuthInfo> signUp(String username, String password);
   Future<AuthInfo> refreshToken(String token);
 }
 
@@ -17,7 +17,7 @@ class AuthRemoteDataSource
 
   AuthRemoteDataSource({required this.dio});
   @override
-  Future<AuthInfo> login(String username, String passwpord) async {
+  Future<AuthInfo> login(String username, String password) async {
     final response = await httpClient.post(
       'auth/token',
       data: {
@@ -25,7 +25,7 @@ class AuthRemoteDataSource
         "client_id": 2,
         "client_secret": Constants.clientSecret,
         "username": username,
-        "password": passwpord,
+        "password": password,
       },
     );
     validateRespone(response);
@@ -55,12 +55,12 @@ class AuthRemoteDataSource
   }
 
   @override
-  Future<AuthInfo> signUp(String username, String passwpord) async {
+  Future<AuthInfo> signUp(String username, String password) async {
     final response = await httpClient.post(
       'user/register',
-      data: {"email": username, "password": passwpord},
+      data: {"email": username, "password": password},
     );
     validateRespone(response);
-    return login(username, passwpord);
+    return login(username, password);
   }
 }
